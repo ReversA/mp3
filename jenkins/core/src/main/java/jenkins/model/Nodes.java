@@ -101,6 +101,11 @@ public class Nodes implements Saveable {
      * @param nodes the new list of nodes.
      * @throws IOException if the new list of nodes could not be persisted.
      */
+    public void updateAndTrim() {
+        jenkins.updateComputerList();
+        jenkins.trimLabels();
+    }
+    
     public void setNodes(final @Nonnull Collection<? extends Node> nodes) throws IOException {
         Queue.withLock(new Runnable() {
             @Override
@@ -112,8 +117,7 @@ public class Nodes implements Saveable {
                     Nodes.this.nodes.put(name, n);
                 }
                 Nodes.this.nodes.keySet().removeAll(toRemove); // directory clean up will be handled by save
-                jenkins.updateComputerList();
-                jenkins.trimLabels();
+                updateAndTrim();
             }
         });
         save();
@@ -133,8 +137,7 @@ public class Nodes implements Saveable {
                 @Override
                 public void run() {
                     nodes.put(node.getNodeName(), node);
-                    jenkins.updateComputerList();
-                    jenkins.trimLabels();
+                    updateAndTrim();
                 }
             });
             // no need for a full save() so we just do the minimum
@@ -166,8 +169,7 @@ public class Nodes implements Saveable {
                         c.disconnect(OfflineCause.create(hudson.model.Messages._Hudson_NodeBeingRemoved()));
                     }
                     if (node == nodes.remove(node.getNodeName())) {
-                        jenkins.updateComputerList();
-                        jenkins.trimLabels();
+                        updateAndTrim();
                     }
                 }
             });
@@ -251,8 +253,7 @@ public class Nodes implements Saveable {
                     }
                 }
                 nodes.putAll(newNodes);
-                jenkins.updateComputerList();
-                jenkins.trimLabels();
+                updateAndTrim();
             }
         });
     }
