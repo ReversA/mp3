@@ -3936,7 +3936,18 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
         }
     }
 
-    public static class MasterComputer extends Computer {
+    /**
+	 * Sets the list of nodes.
+	 *
+	 * @param nodes the new list of nodes.
+	 * @throws IOException if the new list of nodes could not be persisted.
+	 */
+	public void updateAndTrim() {
+	    updateComputerList();
+	    trimLabels();
+	}
+
+	public static class MasterComputer extends Computer {
         protected MasterComputer() {
             super(Jenkins.getInstance());
         }
