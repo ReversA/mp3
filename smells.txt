@@ -1,0 +1,13 @@
+CS498-001 MP3
+Allison Revers
+
+Question 1)
+The code smell is duplicated code, specifically duplicate expressions in the same class. The refractoring that addresses this is creating a method in the class that performs the functions of the duplicated expressions and replacing the expressions with a function call.
+
+Question 3)
+The code smell is feature envy, meaning the code in the Nodes class "wants" to be in the Jenkins class. Refractoring that fixes this is moving the method to the Jenkins class and updating the callers of the updateAndTrim method to jenkins.
+
+Question 4)
+The code smell is the same as in question 1 and is solved the same way. 
+
+I ran out of time for question 6 (and kind of question 4, more information is in the test file).
